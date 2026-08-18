@@ -1,0 +1,18 @@
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+
+# Ansible
+*.retry
+
+# macOS
+.DS_Store
+
+# Local environment / secrets
+.env
+*.pem
+*.key
+
+# Ansible Vault
+vault_password_file
