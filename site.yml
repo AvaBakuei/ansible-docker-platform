@@ -1,0 +1,9 @@
+---
+- name: Configure common server settings
+  hosts: all
+  become: true
+
+  roles:
+    - role: common
+      tags:
+        - common
