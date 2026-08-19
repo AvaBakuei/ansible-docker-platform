@@ -1,0 +1,22 @@
+services:
+  traefik:
+    image: traefik:{{ traefik_version }}
+    container_name: traefik
+    restart: unless-stopped
+
+    ports:
+      - "{{ traefik_http_port }}:{{ traefik_http_port }}"
+      - "{{ traefik_https_port }}:{{ traefik_https_port }}"
+
+    volumes:
+      - "{{ traefik_directory }}/traefik.yml:/etc/traefik/traefik.yml:ro"
+      - "{{ traefik_directory }}/dynamic:/etc/traefik/dynamic:ro"
+      - "{{ traefik_directory }}/letsencrypt:/letsencrypt"
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+
+    networks:
+      - proxy
+
+networks:
+  proxy:
+    external: true

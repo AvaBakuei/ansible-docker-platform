@@ -1,0 +1,45 @@
+- name: Create Traefik directories
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: directory
+    owner: root
+    group: root
+    mode: "0755"
+  loop:
+    - "{{ traefik_directory }}"
+    - "{{ traefik_directory }}/dynamic"
+    - "{{ traefik_directory }}/letsencrypt"
+
+- name: Deploy Traefik configuration
+  ansible.builtin.template:
+    src: traefik.yml.j2
+    dest: "{{ traefik_directory }}/traefik.yml"
+    owner: root
+    group: root
+    mode: "0644"
+  notify: Restart Traefik
+
+- name: Deploy Docker Compose
+  ansible.builtin.template:
+    src: docker-compose.yml.j2
+    dest: "{{ traefik_directory }}/docker-compose.yml"
+    owner: root
+    group: root
+    mode: "0644"
+  notify: Restart Traefik
+
+- name: Start Traefik
+  community.docker.docker_compose_v2:
+    project_src: "{{ traefik_directory }}"
+    state: present
+
+- name: Check Traefik container
+  community.docker.docker_container_info:
+    name: traefik
+  register: traefik_container
+
+- name: Verify Traefik is running
+  ansible.builtin.assert:
+    that:
+      - traefik_container.container.State.Running
+    fail_msg: "Traefik container is not running"
