@@ -1,0 +1,8 @@
+deploy_user: deployer
+
+deploy_user_shell: /bin/bash
+
+deploy_user_groups:
+  - sudo
+
+deploy_user_public_key: ""

@@ -1,5 +1,5 @@
 ---
-- name: Configure common server settings
+- name: Configure server
   hosts: all
   become: true
 
@@ -7,3 +7,7 @@
     - role: common
       tags:
         - common
+
+    - role: users
+      tags:
+        - users

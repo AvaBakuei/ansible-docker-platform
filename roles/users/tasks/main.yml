@@ -1,0 +1,22 @@
+---
+- name: Create deploy user
+  ansible.builtin.user:
+    name: "{{ deploy_user }}"
+    shell: "{{ deploy_user_shell }}"
+    groups: "{{ deploy_user_groups }}"
+    append: true
+    create_home: true
+
+- name: Create SSH directory
+  ansible.builtin.file:
+    path: "/home/{{ deploy_user }}/.ssh"
+    state: directory
+    owner: "{{ deploy_user }}"
+    group: "{{ deploy_user }}"
+    mode: "0700"
+
+- name: Add deploy user SSH key
+  ansible.posix.authorized_key:
+    user: "{{ deploy_user }}"
+    key: "{{ deploy_user_public_key }}"
+    state: present
