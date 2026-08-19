@@ -11,3 +11,7 @@
     - role: users
       tags:
         - users
+
+    - role: docker
+      tags:
+        - docker
