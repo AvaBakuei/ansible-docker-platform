@@ -15,3 +15,7 @@
     - role: docker
       tags:
         - docker
+
+    - role: firewall
+      tags:
+        - firewall
