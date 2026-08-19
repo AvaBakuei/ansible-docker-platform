@@ -1,0 +1,15 @@
+applications:
+  - name: whoami
+    image: traefik/whoami
+    domain: whoami.example.com
+    internal_port: 80
+    enabled: true
+
+  - name: nginx
+    image: nginx:alpine
+    domain: nginx.example.com
+    internal_port: 80
+    enabled: true
+
+apps_directory: /opt/apps
+apps_network: proxy

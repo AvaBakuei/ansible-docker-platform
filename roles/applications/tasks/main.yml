@@ -1,0 +1,44 @@
+---
+- name: Create application directories
+  ansible.builtin.file:
+    path: "{{ apps_directory }}/{{ item.name }}"
+    state: directory
+    owner: root
+    group: root
+    mode: "0755"
+  loop: "{{ applications }}"
+  when: item.enabled
+
+- name: Generate application Docker Compose
+  ansible.builtin.template:
+    src: docker-compose.yml.j2
+    dest: "{{ apps_directory }}/{{ app.name }}/docker-compose.yml"
+    owner: root
+    group: root
+    mode: "0644"
+  loop: "{{ applications }}"
+  loop_control:
+    loop_var: app
+  when: app.enabled
+
+- name: Deploy applications
+  community.docker.docker_compose_v2:
+    project_src: "{{ apps_directory }}/{{ item.name }}"
+    state: present
+  loop: "{{ applications }}"
+  when: item.enabled
+
+- name: Check application container
+  community.docker.docker_container_info:
+    name: "{{ item.name }}"
+  register: application_containers
+  loop: "{{ applications }}"
+  when: item.enabled
+
+- name: Verify application containers are running
+  ansible.builtin.assert:
+    that:
+      - item.container.State.Running
+    fail_msg: "Application {{ item.item.name }} is not running"
+  loop: "{{ application_containers.results }}"
+  when: item.item.enabled

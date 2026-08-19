@@ -23,3 +23,7 @@
     - role: traefik
       tags:
         - traefik
+
+    - role: applications
+      tags:
+        - applications
