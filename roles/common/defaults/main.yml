@@ -1,0 +1,10 @@
+common_packages:
+  - curl
+  - git
+  - vim
+  - htop
+  - ca-certificates
+  - gnupg
+  - unzip
+
+timezone: Europe/Berlin
