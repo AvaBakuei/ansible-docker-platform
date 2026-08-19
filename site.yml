@@ -19,3 +19,7 @@
     - role: firewall
       tags:
         - firewall
+
+    - role: traefik
+      tags:
+        - traefik

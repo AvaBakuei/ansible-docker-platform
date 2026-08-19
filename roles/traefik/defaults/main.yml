@@ -1,0 +1,5 @@
+traefik_version: v3.0
+traefik_directory: /opt/traefik
+traefik_network: proxy
+traefik_http_port: 80
+traefik_https_port: 443
