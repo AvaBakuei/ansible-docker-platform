@@ -3,6 +3,9 @@
   hosts: all
   become: true
 
+  vars_files:
+    - applications.yml
+
   roles:
     - role: common
       tags:
