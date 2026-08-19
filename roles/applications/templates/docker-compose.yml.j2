@@ -1,0 +1,17 @@
+services:
+  {{ app.name }}:
+    image: {{ app.image }}
+    container_name: {{ app.name }}
+    restart: unless-stopped
+
+    networks:
+      - proxy
+
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.{{ app.name }}.rule=Host(`{{ app.domain }}`)"
+      - "traefik.http.services.{{ app.name }}.loadbalancer.server.port={{ app.internal_port }}"
+
+networks:
+  proxy:
+    external: true
