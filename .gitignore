@@ -15,4 +15,6 @@ __pycache__/
 *.key
 
 # Ansible Vault
+.vault_pass
+.vault-password
 vault_password_file
